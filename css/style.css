@@ -1,0 +1,10 @@
+/*Body*/
+body{
+    background: #0c5460;
+}
+
+/*Cell*/
+.cell{
+    width: 75px !important;
+    height: 75px !important;
+}
