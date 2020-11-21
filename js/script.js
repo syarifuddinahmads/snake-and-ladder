@@ -91,6 +91,13 @@ $(function () {
             }
         }, timeInterval)
 
+        // update position
+        player.forEach((p) => {
+            if (p.id == dataPlayer.id) {
+                p.position =  newPosition;
+            }
+        })
+
         let playerMax = player.length;
 
         if (playerPlay != playerMax) {
@@ -98,7 +105,11 @@ $(function () {
                 playerPlay++
             }
         } else {
-            playerPlay = 1;
+            if (diceOne == diceTwo) {
+                playerPlay += 1;
+            }else{
+                playerPlay = 1;
+            }
         }
 
         setTimeout(() => {
@@ -248,12 +259,6 @@ function rulesGame(dataPlayer, playerPosition) {
                 }
             })
 
-        }else {
-            player.forEach((p) => {
-                if (p.id == dataPlayer.id) {
-                    p.position = playerPosition;
-                }
-            })
         }
     })
 
