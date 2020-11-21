@@ -37,9 +37,9 @@ $(function () {
     let player = [
         {id: 1, name: 'Player 1', color: '#f44336', position: 0},
         {id: 2, name: 'Player 2', color: '#ffeb3b', position: 0},
-        {id: 3, name: 'Player 2', color: '#263238', position: 0},
-        {id: 4, name: 'Player 2', color: '#4caf50', position: 0},
-        {id: 5, name: 'Player 2', color: '#2196F3', position: 0},
+        {id: 3, name: 'Player 3', color: '#263238', position: 0},
+        {id: 4, name: 'Player 4', color: '#4caf50', position: 0},
+        {id: 5, name: 'Player 5', color: '#2196F3', position: 0},
     ]
 
     let liPlayer = '';
