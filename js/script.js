@@ -91,13 +91,6 @@ $(function () {
             }
         }, timeInterval)
 
-        // update position
-        player.forEach((p) => {
-            if (p.id == dataPlayer.id) {
-                p.position = newPosition;
-            }
-        })
-
         let playerMax = player.length;
 
         if (playerPlay != playerMax) {
@@ -254,8 +247,20 @@ function rulesGame(dataPlayer, playerPosition) {
                     p.position =  r.to;
                 }
             })
+
+        }else {
+            player.forEach((p) => {
+                if (p.id == dataPlayer.id) {
+                    p.position = playerPosition;
+                }
+            })
         }
     })
+
+    if (playerPosition == 100){
+        alert(dataPlayer.name+' You Win...')
+        location.reload();
+    }
 
 
 }
