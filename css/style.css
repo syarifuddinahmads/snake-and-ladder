@@ -8,3 +8,21 @@ body{
     width: 75px !important;
     height: 75px !important;
 }
+
+.number-cell{
+    position: relative;
+    bottom: -36px;
+    right: -34px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.player-item{
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+}
+
+.pl.active{
+    background-color: #9fcdff !important;
+}
