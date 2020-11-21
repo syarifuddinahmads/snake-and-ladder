@@ -51,31 +51,6 @@ $(function () {
 
     // End Init Player List
 
-    // // Add Player
-    // $('#btnInputNewPlayer').on('click', function () {
-    //     let name = $('#fieldNamePlayer').val()
-    //     if (name == "") {
-    //         alert('Name Player belum diisi...!')
-    //     } else {
-    //         player.push({
-    //             id: (player.length + 1),
-    //             name: name,
-    //             position: 0,
-    //             color: Math.floor(Math.random() * 16777215).toString(16)
-    //         })
-    //
-    //         $('#fieldNamePlayer').val('')
-    //     }
-    //
-    //     let liPlayer = '';
-    //     for (let i = 0; i < player.length; i++) {
-    //         liPlayer += `<li class="list-group-item d-flex justify-content-between align-items-center">${player[i].name}<span class="badge badge-primary badge-pill">${player[i].position}</span></li>`
-    //     }
-    //     $('#listPlayer').html(liPlayer)
-    // })
-    //
-    // // End Add Player
-
     // Set active player
 
     let playerPlay = 1;
@@ -171,17 +146,6 @@ function templatePlayer() {
         </div>
         <div class="card-body">
             <ul class="list-group" id="listPlayer"></ul>
-<!--            <hr>-->
-<!--            <div class="row">-->
-<!--                <div class="col-md-8">-->
-<!--                    <div class="form-group">-->
-<!--                    <input type="text" class="form-control" placeholder="Input name player" id="fieldNamePlayer">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-md-4">-->
-<!--                    <button class="btn btn-block btn-primary" id="btnInputNewPlayer">Submit</button>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
         <div class="card-footer">
             <div class="form-group">
@@ -223,8 +187,12 @@ function runPlayer(dataPlayer, listPlayer) {
     let positionNow = dataPlayer.player.position;
     let newPosition = positionNow + dataPlayer.step;
     for (let i = positionNow; i <= newPosition; i++) {
-        $('#cell-' + i).append(`<div class="player-item ${dataPlayer.player.id}" style="background-color: ${dataPlayer.player.color}"></div>`)
-        $('#cell-' + (i - 1)).find('.player-item.' + dataPlayer.player.id).remove()
+        setTimeout(()=>{
+            $('#cell-' + i).append(`<div class="player-item ${dataPlayer.player.id}" style="background-color: ${dataPlayer.player.color}"></div>`)
+        },1500)
+        setTimeout(()=>{
+            $('#cell-' + (i - 1)).find('.player-item.' + dataPlayer.player.id).remove()
+        },2000)
     }
 
     // update position
