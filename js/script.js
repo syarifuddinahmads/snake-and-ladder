@@ -1,3 +1,5 @@
+let player =[]
+
 $(function () {
 
     $('#app').html(templateMain())
@@ -34,7 +36,7 @@ $(function () {
     })
 
     // Init Player List
-    let player = [
+    player = [
         {id: 1, name: 'Player 1', color: '#f44336', position: 0},
         {id: 2, name: 'Player 2', color: '#ffeb3b', position: 0},
         {id: 3, name: 'Player 3', color: '#263238', position: 0},
@@ -61,9 +63,9 @@ $(function () {
     // init set active user
     $('.pl').each(function () {
         let id = $(this).data('id')
-        if (id == playerPlay){
+        if (id == playerPlay) {
             $(this).addClass('active')
-        }else {
+        } else {
             $(this).removeClass('active')
         }
     })
@@ -75,12 +77,26 @@ $(function () {
         $('#DiceOne').text(diceOne)
         $('#DiceTwo').text(diceTwo)
 
-        let dataPlayer = {
-            player: getPlayer(player, playerPlay),
-            step: stepTotal
-        }
+        let dataPlayer = getPlayer(player, playerPlay);
+        let positionNow = dataPlayer.position;
+        let newPosition = positionNow + stepTotal;
 
-        runPlayer(dataPlayer, player)
+        let timeInterval = 500;
+
+        setInterval(() => {
+            if (positionNow != newPosition) {
+                positionNow += 1;
+                $('#cell-' + (positionNow - 1)).find('.player-item.' + dataPlayer.id).remove()
+                $('#cell-' + positionNow).append(`<div class="player-item ${dataPlayer.id}" style="background-color: ${dataPlayer.color}"></div>`)
+            }
+        }, timeInterval)
+
+        // update position
+        player.forEach((p) => {
+            if (p.id == dataPlayer.id) {
+                p.position = newPosition;
+            }
+        })
 
         let playerMax = player.length;
 
@@ -92,20 +108,23 @@ $(function () {
             playerPlay = 1;
         }
 
-        setTimeout(()=>{
+        setTimeout(() => {
             $('#DiceOne').text(0)
             $('#DiceTwo').text(0)
 
             $('.pl').each(function () {
                 let id = $(this).data('id')
-                if (id == playerPlay){
+                if (id == playerPlay) {
                     $(this).addClass('active')
-                }else {
+                } else {
                     $(this).removeClass('active')
                 }
             })
 
-        },2500)
+            rulesGame(dataPlayer, newPosition)
+
+
+        }, (timeInterval * (newPosition - positionNow + 1)))
 
     })
 
@@ -183,33 +202,60 @@ function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function runPlayer(dataPlayer, listPlayer) {
-    let positionNow = dataPlayer.player.position;
-    let newPosition = positionNow + dataPlayer.step;
-    for (let i = positionNow; i <= newPosition; i++) {
-        setTimeout(()=>{
-            $('#cell-' + i).append(`<div class="player-item ${dataPlayer.player.id}" style="background-color: ${dataPlayer.player.color}"></div>`)
-        },1500)
-        setTimeout(()=>{
-            $('#cell-' + (i - 1)).find('.player-item.' + dataPlayer.player.id).remove()
-        },2000)
-    }
-
-    // update position
-    listPlayer.forEach((p) => {
-        if (p.id == dataPlayer.player.id) {
-            p.position = newPosition;
-        }
-    })
-}
-
 function getPlayer(dataPlayer, idPlayerActive) {
-    let player;
+    let playerSelected;
     for (let i = 0; i < dataPlayer.length; i++) {
         if (dataPlayer[i].id == idPlayerActive) {
-            player = dataPlayer[i];
+            playerSelected = dataPlayer[i];
         }
     }
 
-    return player;
+    return playerSelected;
+}
+
+function rulesGame(dataPlayer, playerPosition) {
+
+    let listRules = [
+        {id_rule: '1', from: 1, to: 38, type:'up'},
+        {id_rule: '4', from: 4, to: 14, type:'up'},
+        {id_rule: '9', from: 9, to: 38, type:'up'},
+        {id_rule: '17', from: 17, to: 7, type:'down'},
+        {id_rule: '21', from: 21, to: 38, type:'up'},
+        {id_rule: '28', from: 28, to: 84, type:'up'},
+        {id_rule: '51', from: 51, to: 67, type:'up'},
+        {id_rule: '54', from: 54, to: 34, type:'down'},
+        {id_rule: '62', from: 62, to: 19, type:'down'},
+        {id_rule: '64', from: 64, to: 60, type:'down'},
+        {id_rule: '71', from: 71, to: 91, type:'up'},
+        {id_rule: '80', from: 80, to: 100, type:'up'},
+        {id_rule: '87', from: 87, to: 24, type:'down'},
+        {id_rule: '93', from: 93, to: 73, type:'down'},
+        {id_rule: '95', from: 95, to: 75, type:'down'},
+        {id_rule: '98', from: 98, to: 79, type:'down'},
+    ];
+
+    listRules.forEach((r)=>{
+        if (r.id_rule == playerPosition){
+            switch (r.type) {
+                case "up":
+                    alert("Naik dari "+r.from+' ke '+r.to)
+                    break;
+                case "down":
+                    alert("Turun dari "+r.from+' ke '+r.to)
+                    break
+            }
+
+            $('#cell-' + playerPosition).find('.player-item.' + dataPlayer.id).remove()
+            $('#cell-' + r.to).append(`<div class="player-item ${dataPlayer.id}" style="background-color: ${dataPlayer.color}"></div>`)
+
+            // update position
+            player.forEach((p) => {
+                if (p.id == dataPlayer.id) {
+                    p.position =  r.to;
+                }
+            })
+        }
+    })
+
+
 }
